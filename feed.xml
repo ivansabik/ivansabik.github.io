@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>sabikulous</title>
-    <atom:link href="http://localhost:8080/feed.xml" rel="self" type="application/rss+xml"></atom:link>
-    <link>http://localhost:8080</link>
+    <atom:link href="http://ivansabik.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
+    <link>http://ivansabik.github.io</link>
     <description></description>
     <pubDate>Mon, 03  Aug 2015 19:00:00 -0500</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
     <item>
       <title>Ejecutar scripts con Node.js al iniciar Ubuntu</title>
-      <link>http://localhost:8080/public/ejecutar-scripts-nodejs-iniciar-ubuntu/</link>
+      <link>http://ivansabik.github.io/public/ejecutar-scripts-nodejs-iniciar-ubuntu/</link>
       <pubDate>Mon, 03  Aug 2015 19:00:00 -0500</pubDate>
-      <guid isPermaLink="true">http://localhost:8080/public/ejecutar-scripts-nodejs-iniciar-ubuntu/</guid>
+      <guid isPermaLink="true">http://ivansabik.github.io/public/ejecutar-scripts-nodejs-iniciar-ubuntu/</guid>
       <description>&lt;p&gt;Node.js es una plataforma que permite ejecutar javascript  en servidores o nodos distintos de navegadores web. Hasta hace unos años el uso de este lenguaje estaba dedicado sólo para la programación web del lado del cliente pero con Node.js se abre la posibilidad de programar por medio de “funciones callback” o eventos también en servidores web, incluso Node.js ha ganado bastante popularidad en las aplicaciones CLI (de línea de comandos).&lt;/p&gt;
 &lt;p&gt;Nunca he sido amante de shell/bash como lenguaje, sin embargo el saber hacer scripts nos facilita tareas cotidianas enormemente. Recientemente me interesé en saber cuándo publicarán la convocatoria para el premio de Seguros y Fianzas de la CNSF y a la fecha no existe. Entonces conociendo javascript y queriendo aprender más de Node.JS pensé hacer un pequeño script que se inicie cuando arranque mi computadora con Ubuntu y éste me avise por correo electrónico cuando se publique la página con la convocatoria.&lt;/p&gt;
 &lt;p&gt;Node.js cuenta con un administrador de paquetes y dependencias llamado npm, el cual es de fácil uso y goza de gran apoyo de la comunidad, antes de emprender algo en Node, busca si ya existe algo similar en npm, para este caso usaremos:&lt;/p&gt;
