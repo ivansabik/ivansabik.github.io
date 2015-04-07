@@ -24,45 +24,48 @@
         <article class="article intro">
           <header>
             <p class="date"><span>04. 08 2015</span></p>
-            <h2><a href="/public/ejecutar-scripts-nodejs-iniciar-ubuntu/">Ejecutar scripts node.js al iniciar ubuntu</a></h2>
+            <h2><a href="/public/ejecutar-scripts-nodejs-iniciar-ubuntu/">Ejecutar scripts con Node.js al iniciar Ubuntu</a></h2>
           </header>
-          <section class="content"><p>Node.js es famoso por sus callback y su enfoque orientado eventos lo que se presta para usarlo para ejecutar scripts o programitas desarrollados con Javascript. Recientemente quize saber cuándo publicarían la convocatoria para el premio de la Antonio Minzoni de la <span class="caps">CNSF</span> y pensé que sería mejor tener un servicio que avisar por correo electrónico si se publicó la página con la&nbsp;convocatoria.</p>
-<p>Otra cosa interesante de Node.js es el extenso número de librerías que existen disponibles a través de npm además que es muy sencillo configurar las&nbsp;dependecias. </p>
-<h3 id="requisitos">Requisitos</h3>
-<p>Node.js y npm instalados, la forma más fácil en ubuntu&nbsp;es:</p>
+          <section class="content"><p>Node.js es una plataforma que permite ejecutar javascript  en servidores o nodos distintos de navegadores web. Hasta hace unos años el uso de este lenguaje estaba dedicado sólo para la programación web del lado del cliente pero con Node.js se abre la posibilidad de programar por medio de “funciones callback” o eventos también en servidores web, incluso Node.js ha ganado bastante popularidad en las aplicaciones <span class="caps">CLI</span> (de línea de&nbsp;comandos).</p>
+<p>Nunca he sido amante de shell/bash como lenguaje, sin embargo el saber hacer scripts nos facilita tareas cotidianas enormemente. Recientemente me interesé en saber cuándo publicarán la convocatoria para el premio de Seguros y Fianzas de la <span class="caps">CNSF</span> y a la fecha no existe. Entonces conociendo javascript y queriendo aprender más de Node.JS pensé hacer un pequeño script que se inicie cuando arranque mi computadora con Ubuntu y éste me avise por correo electrónico cuando se publique la página con la&nbsp;convocatoria.</p>
+<p>Node.js cuenta con un administrador de paquetes y dependencias llamado npm, el cual es de fácil uso y goza de gran apoyo de la comunidad, antes de emprender algo en Node, busca si ya existe algo similar en npm, para este caso&nbsp;usaremos:</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/request">request</a></li>
+<li><a href="https://www.npmjs.com/package/nodemailer">nodemailer</a></li>
+</ul>
+<h3 id="-c-mo-saber-si-ya-se-public-la-convocatoria-">¿Cómo saber si ya se publicó la&nbsp;convocatoria?</h3>
+<p>Para saber si ya se publicó la convocatoria del concurso, usaré un script de un proyecto publicado en Github llamado <a href="https://github.com/chovy/node-startup/blob/master/init.d/node-app">node-app</a>, el cual permite programar la ejecución de scripts en Node.js al arrancarsistemas Linux (/etc/init.d para los linuxeros). En este caso usaré Ubuntu pero debe funcionar con las configuraciones apropiadas otras&nbsp;distribuciones.</p>
+<p>Las convocatorias y resultados de ganadores de ediciones anteriores del concurso se encuentran&nbsp;en:</p>
+<ul>
+<li><a href="http://cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx">http://cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx</a></li>
+<li><a href="http://cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx">http://cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx</a></li>
+<li><a href="http://cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx">http://cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx</a></li>
+</ul>
+<p>Entonces la idea es hacer una petición <span class="caps">HTTP</span> a <a href="http://cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx">http://cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx</a> esperando que ahí se publique la información cuando esté disponible. Esto se puede hacer por medio de una petición <span class="caps">HTTP</span> donde sólo nos interesan los headers de respuesta (200 para ok y 400 para no encontrado y es donde usamos request del repositorio&nbsp;npm).</p>
+<h3 id="instalaci-n-de-node-js-y-dependencias-npm">Instalación de Node.js y dependencias&nbsp;npm</h3>
+<p>Primero requerimos tener Node.js y npm instalados, la forma más fácil para empezar a probarlo en Ubuntu&nbsp;es:</p>
 <pre><code class="lang-bash">$ <span class="built_in">sudo</span> apt-get install nodejs
 $ <span class="built_in">sudo</span> apt-get install npm
 </code></pre>
-<p>Luego las dependencias con&nbsp;npm:</p>
+<p>Luego instalamos las dependencias con estos comandos de&nbsp;npm:</p>
 <pre><code class="lang-bash">$ npm install nodemailer
 $ npm install nodemailer-smtp-transport
 $ npm install request
 </code></pre>
-<p>Para saber si ya se publicó la convocatoria, se puede usar un programa que se ejecute periódicamente o al iniciar la compu (que es este caso). Para esto voy a usar <a href="https://github.com/chovy/node-startup/blob/master/init.d/node-app">node-startup</a>. </p>
-<p>Primero hay que crear el archivo <code>/etc/init.d/alerta-cnsf</code> y copiar el contenido del template de node-app. Este archivo contendrá un código sh (shell, bash) que ejecutará el script en Node.js al inicio. El mío quedó <a href="https://gist.github.com/ivansabik/cd70ca34e82403c66781">algo así</a>, los programines en javascript se guardarán en&nbsp;“home/scripts-startup”:</p>
-<pre><code class="lang-bash"><span class="shebang">#!/bin/sh
-</span>
-NODE_ENV=<span class="string">"production"</span>
-<span class="caps">PORT</span>=<span class="string">"3000"</span>
-APP_DIR=<span class="string">"~/scripts-startup"</span>
-NODE_APP=<span class="string">"cnsf.js"</span>
-...
-...
+<h3 id="script-sh-bash-etc-init-d-alerta-cnsf-">Script sh/bash&nbsp;(/etc/init.d/alerta-cnsf)</h3>
+<p>Una vez instalado todo, creamos el archivo&nbsp;/etc/init.d/alerta-cnsf:</p>
+<pre><code class="lang-bash">$ <span class="built_in">sudo</span> gedit /etc/init.d/alerta-cnsf
 </code></pre>
-<p>Luego hay que actualizar&nbsp;con:</p>
-<pre><code>$ update-rc.d node-startup defaults
-</code></pre><h3 id="el-script-de-java-javascript">El <del>script de java</del> javascript</h3>
-<p>En convocatorias anteriores, las publicaciones y los resultados están&nbsp;en:</p>
-<ul>
-<li><a href="http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx">http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx</a></li>
-<li><a href="http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx">http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx</a></li>
-<li><a href="http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx">http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx</a></li>
-</ul>
-<p>Entonces la idea es hacer una petición <span class="caps">HTTP</span> a <a href="http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx">http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx</a> esperando que ahí se publique. Esto se puede hacer por medio de las repuestas <span class="caps">HTTP</span> comunes (200 para ok y 400 para no encontrado) Entonces hay que crear el archivo&nbsp;“~/scripts-startup/cnsf.js”.</p>
-<h4 id="-scripts-startup-cnsf-js">~/scripts-startup/cnsf.js</h4>
+<p>Y copiamos el contenido del template de <a href="https://github.com/chovy/node-startup/blob/master/init.d/node-app">node-app</a> y lo adecuamos a la configuración que queramos. Este archivo contiene un código sh (shell, bash) que ejecutará el script en Node.js al iniciar Ubuntu. El mío quedó&nbsp;así:</p>
+<script src="https://gist.github.com/ivansabik/cd70ca34e82403c66781.js"></script>
+
+<p>Finalmente hay que&nbsp;ejecutar:</p>
+<pre><code>$ update-rc.d alerta-cnsf defaults
+</code></pre><h3 id="el-script-de-java-javascript-scripts-startup-cnsf-js-">El <del>script de java</del> javascript&nbsp;(~/scripts-startup/cnsf.js)</h3>
+<p>El script usa la función setInterval() para intentar realizar la petición <span class="caps">HTTP</span> y validar lo que sea necesario cada cierto tiempo hasta un máximo de 10 intentos. Esto se necesita porque al ejecutarse el script en el arranque, tenemos que esperar a que haya conexión a internet y esto puede tardar un&nbsp;poco.</p>
 <script src="https://gist.github.com/ivansabik/bc4ed7f2cc4ad118eb8d.js"></script>
 
-<h4 id="probando-que-funciona">Probando que&nbsp;funciona</h4>
+<h3 id="probando-que-funciona">Probando que&nbsp;funciona</h3>
 <p>Listo, si todo salió bien al reiniciar, se ejecutará el javascript pero podemos ver si funciona ejecutándolo como cualquier otro programa de&nbsp;Node.js:</p>
 <pre><code class="lang-bash">$ node ~/scripts-startup/cnsf.js
 -------------------------
@@ -78,7 +81,7 @@ Pagina http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx responde <span c
 <p>Por:</p>
 <pre><code class="lang-javascript"><span class="keyword">if</span>(res.statusCode) {
 </code></pre>
-<p>Y al volver a correr el&nbsp;script:</p>
+<p>Y volver a correr el&nbsp;script:</p>
 <pre><code class="lang-bash">$ node ~/scripts-startup/cnsf.js
 -------------------------
 Tue Apr <span class="number">07</span> <span class="number">2015</span> <span class="number">03</span>:<span class="number">22</span>:<span class="number">04</span> <span class="caps">GMT</span>-<span class="number">0500</span> (<span class="caps">CDT</span>)
@@ -90,6 +93,7 @@ Respuesta <span class="string">"250 2.0.0 <span class="caps">OK</span> 142839492
 </code></pre>
 <p><img src="/public/ejecutar-scripts-nodejs-iniciar-ubuntu/mail-alerta-cnsf.png" alt="Mail de alerta"></p>
 <p>¡Y sí son las tres de la mañana entonces ya no voy a corregir el&nbsp;“Convocatorioa”!</p>
+<p>Feliz y productivo scripting con Javascript y&nbsp;Node.js…</p>
 
           </section>
         </article>
