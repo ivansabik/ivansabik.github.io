@@ -21,14 +21,14 @@
 &lt;li&gt;&lt;a href=&quot;https://www.npmjs.com/package/nodemailer&quot;&gt;nodemailer&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3 id=&quot;-c-mo-saber-si-ya-se-public-la-convocatoria-&quot;&gt;¿Cómo saber si ya se publicó la convocatoria?&lt;/h3&gt;
-&lt;p&gt;Para saber si ya se publicó la convocatoria del concurso, usaré un script de un proyecto publicado en Github llamado &lt;a href=&quot;https://github.com/chovy/node-startup/blob/master/init.d/node-app&quot;&gt;node-app&lt;/a&gt;, el cual permite programar la ejecución de scripts en Node.js al arrancarsistemas Linux (/etc/init.d para los linuxeros). En este caso usaré Ubuntu pero debe funcionar con las configuraciones apropiadas otras distribuciones.&lt;/p&gt;
+&lt;p&gt;Para saber si ya se publicó la convocatoria del concurso, usaré un script de un proyecto publicado en Github llamado &lt;a href=&quot;https://github.com/chovy/node-startup/blob/master/init.d/node-app&quot;&gt;node-app&lt;/a&gt;, el cual permite programar la ejecución de scripts en Node.js al arrancar sistemas Linux (/etc/init.d para los linuxeros). En este caso usaré Ubuntu pero debe funcionar con las configuraciones apropiadas en otras distribuciones.&lt;/p&gt;
 &lt;p&gt;Las convocatorias y resultados de ganadores de ediciones anteriores del concurso se encuentran en:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx&quot;&gt;http://cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx&quot;&gt;http://cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx&quot;&gt;http://cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx&quot;&gt;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx&quot;&gt;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx&quot;&gt;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Entonces la idea es hacer una petición HTTP a &lt;a href=&quot;http://cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx&quot;&gt;http://cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx&lt;/a&gt; esperando que ahí se publique la información cuando esté disponible. Esto se puede hacer por medio de una petición HTTP donde sólo nos interesan los headers de respuesta (200 para ok y 400 para no encontrado y es donde usamos request del repositorio npm).&lt;/p&gt;
+&lt;p&gt;Entonces la idea es hacer una petición HTTP a &lt;a href=&quot;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx&quot;&gt;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx&lt;/a&gt; esperando que ahí se publique la información cuando esté disponible. Esto se puede hacer por medio de una petición HTTP donde sólo nos interesan los headers de respuesta (200 para ok y 400 para no encontrado y es donde usamos request del repositorio npm).&lt;/p&gt;
 &lt;h3 id=&quot;instalaci-n-de-node-js-y-dependencias-npm&quot;&gt;Instalación de Node.js y dependencias npm&lt;/h3&gt;
 &lt;p&gt;Primero requerimos tener Node.js y npm instalados, la forma más fácil para empezar a probarlo en Ubuntu es:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt-get install nodejs
