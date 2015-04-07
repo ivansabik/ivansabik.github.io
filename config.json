@@ -2,8 +2,7 @@
   "locals": {
     "url": "http://localhost:8080",
     "name": "sabikulous",
-    "owner": "sabik @ mandroslabs",
-    "output": "../"
+    "owner": "sabik @ mandroslabs"
   },
   "plugins": [
     "./plugins/paginator.coffee"
