@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sabikulous</title>
+    <atom:link href="http://localhost:8080/feed.xml" rel="self" type="application/rss+xml"></atom:link>
+    <link>http://localhost:8080</link>
+    <description></description>
+    <pubDate>Mon, 03  Aug 2015 19:00:00 -0500</pubDate>
+    <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
+    <language>en</language>
+    <item>
+      <title>Ejecutar scripts node.js al iniciar ubuntu</title>
+      <link>http://localhost:8080/public/ejecutar-scripts-nodejs-iniciar-ubuntu/</link>
+      <pubDate>Mon, 03  Aug 2015 19:00:00 -0500</pubDate>
+      <guid isPermaLink="true">http://localhost:8080/public/ejecutar-scripts-nodejs-iniciar-ubuntu/</guid>
+      <description>&lt;p&gt;Node.js es famoso por sus callback y su enfoque orientado eventos lo que se presta para usarlo para ejecutar scripts o programitas desarrollados con Javascript. Recientemente quize saber cuándo publicarían la convocatoria para el premio de la Antonio Minzoni de la CNSF y pensé que sería mejor tener un servicio que avisar por correo electrónico si se publicó la página con la convocatoria.&lt;/p&gt;
+&lt;p&gt;Otra cosa interesante de Node.js es el extenso número de librerías que existen disponibles a través de npm además que es muy sencillo configurar las dependecias. &lt;/p&gt;
+&lt;h3 id=&quot;requisitos&quot;&gt;Requisitos&lt;/h3&gt;
+&lt;p&gt;Node.js y npm instalados, la forma más fácil en ubuntu es:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt-get install nodejs
+$ &lt;span class=&quot;built_in&quot;&gt;sudo&lt;/span&gt; apt-get install npm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Luego las dependencias con npm:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ npm install nodemailer
+$ npm install nodemailer-smtp-transport
+$ npm install request
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Para saber si ya se publicó la convocatoria, se puede usar un programa que se ejecute periódicamente o al iniciar la compu (que es este caso). Para esto voy a usar &lt;a href=&quot;https://github.com/chovy/node-startup/blob/master/init.d/node-app&quot;&gt;node-startup&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;Primero hay que crear el archivo &lt;code&gt;/etc/init.d/alerta-cnsf&lt;/code&gt; y copiar el contenido del template de node-app. Este archivo contendrá un código sh (shell, bash) que ejecutará el script en Node.js al inicio. El mío quedó &lt;a href=&quot;https://gist.github.com/ivansabik/cd70ca34e82403c66781&quot;&gt;algo así&lt;/a&gt;, los programines en javascript se guardarán en “home/scripts-startup”:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;&lt;span class=&quot;shebang&quot;&gt;#!/bin/sh
+&lt;/span&gt;
+NODE_ENV=&lt;span class=&quot;string&quot;&gt;&quot;production&quot;&lt;/span&gt;
+PORT=&lt;span class=&quot;string&quot;&gt;&quot;3000&quot;&lt;/span&gt;
+APP_DIR=&lt;span class=&quot;string&quot;&gt;&quot;~/scripts-startup&quot;&lt;/span&gt;
+NODE_APP=&lt;span class=&quot;string&quot;&gt;&quot;cnsf.js&quot;&lt;/span&gt;
+...
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Luego hay que actualizar con:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ update-rc.d node-startup defaults
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;el-script-de-java-javascript&quot;&gt;El &lt;del&gt;script de java&lt;/del&gt; javascript&lt;/h3&gt;
+&lt;p&gt;En convocatorias anteriores, las publicaciones y los resultados están en:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx&quot;&gt;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx&quot;&gt;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx&quot;&gt;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Entonces la idea es hacer una petición HTTP a &lt;a href=&quot;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx&quot;&gt;http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx&lt;/a&gt; esperando que ahí se publique. Esto se puede hacer por medio de las repuestas HTTP comunes (200 para ok y 400 para no encontrado) Entonces hay que crear el archivo “~/scripts-startup/cnsf.js”.&lt;/p&gt;
+&lt;h4 id=&quot;-scripts-startup-cnsf-js&quot;&gt;~/scripts-startup/cnsf.js&lt;/h4&gt;
+&lt;script src=&quot;https://gist.github.com/ivansabik/bc4ed7f2cc4ad118eb8d.js&quot;&gt;&lt;/script&gt;
+
+&lt;h4 id=&quot;probando-que-funciona&quot;&gt;Probando que funciona&lt;/h4&gt;
+&lt;p&gt;Listo, si todo salió bien al reiniciar, se ejecutará el javascript pero podemos ver si funciona ejecutándolo como cualquier otro programa de Node.js:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ node ~/scripts-startup/cnsf.js
+-------------------------
+Tue Apr &lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;03&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;11&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;08&lt;/span&gt; GMT-&lt;span class=&quot;number&quot;&gt;0500&lt;/span&gt; (CDT)
+Iniciando cnsf.js...
+Intento &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;
+Tue Apr &lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;03&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;11&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;08&lt;/span&gt; GMT-&lt;span class=&quot;number&quot;&gt;0500&lt;/span&gt; (CDT)
+Pagina http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx responde &lt;span class=&quot;string&quot;&gt;&quot;404&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Y para probar que funciona el envío del correo se cambia temporalmente esta línea:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;(res.statusCode === &lt;span class=&quot;number&quot;&gt;200&lt;/span&gt;) {
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Por:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-javascript&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;(res.statusCode) {
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Y al volver a correr el script:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-bash&quot;&gt;$ node ~/scripts-startup/cnsf.js
+-------------------------
+Tue Apr &lt;span class=&quot;number&quot;&gt;07&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;2015&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;03&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;22&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;04&lt;/span&gt; GMT-&lt;span class=&quot;number&quot;&gt;0500&lt;/span&gt; (CDT)
+Iniciando cnsf.js...
+Intento &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;
+Enviando mail
+Enviado!
+Respuesta &lt;span class=&quot;string&quot;&gt;&quot;250 2.0.0 OK 1428394926 c41sm5809909yhc.53 - gsmtp&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&quot;/public/ejecutar-scripts-nodejs-iniciar-ubuntu/mail-alerta-cnsf.png&quot; alt=&quot;Mail de alerta&quot;&gt;&lt;/p&gt;
+&lt;p&gt;¡Y sí son las tres de la mañana entonces ya no voy a corregir el “Convocatorioa”!&lt;/p&gt;
+</description>
+    </item>
+  </channel>
+</rss>
