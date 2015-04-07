@@ -19,17 +19,17 @@ Node.js cuenta con un administrador de paquetes y dependencias llamado npm, el c
 
 ### ¿Cómo saber si ya se publicó la convocatoria?
 
-Para saber si ya se publicó la convocatoria del concurso, usaré un script de un proyecto publicado en Github llamado [node-app](https://github.com/chovy/node-startup/blob/master/init.d/node-app), el cual permite programar la ejecución de scripts en Node.js al arrancarsistemas Linux (/etc/init.d para los linuxeros). En este caso usaré Ubuntu pero debe funcionar con las configuraciones apropiadas otras distribuciones.
+Para saber si ya se publicó la convocatoria del concurso, usaré un script de un proyecto publicado en Github llamado [node-app](https://github.com/chovy/node-startup/blob/master/init.d/node-app), el cual permite programar la ejecución de scripts en Node.js al arrancar sistemas Linux (/etc/init.d para los linuxeros). En este caso usaré Ubuntu pero debe funcionar con las configuraciones apropiadas en otras distribuciones.
 
 Las convocatorias y resultados de ganadores de ediciones anteriores del concurso se encuentran en:
 
 
- - http://cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx
- - http://cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx
- - http://cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx
+ - http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2012.aspx
+ - http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2013.aspx
+ - http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2014.aspx
 
  
-Entonces la idea es hacer una petición HTTP a http://cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx esperando que ahí se publique la información cuando esté disponible. Esto se puede hacer por medio de una petición HTTP donde sólo nos interesan los headers de respuesta (200 para ok y 400 para no encontrado y es donde usamos request del repositorio npm).
+Entonces la idea es hacer una petición HTTP a http://www.cnsf.gob.mx/Eventos/Paginas/Premios_2015.aspx esperando que ahí se publique la información cuando esté disponible. Esto se puede hacer por medio de una petición HTTP donde sólo nos interesan los headers de respuesta (200 para ok y 400 para no encontrado y es donde usamos request del repositorio npm).
 
 ### Instalación de Node.js y dependencias npm
 
